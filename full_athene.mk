@@ -14,11 +14,11 @@
 # limitations under the License.
 #
 
-# Inherit from osprey device
-$(call inherit-product, device/motorola/osprey/device.mk)
+# Inherit from athene device
+$(call inherit-product, device/motorola/athene/device.mk)
 
 # Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := osprey
-PRODUCT_NAME := full_osprey
+PRODUCT_DEVICE := athene
+PRODUCT_NAME := full_athene
 
-$(call inherit-product-if-exists, vendor/motorola/osprey/osprey-vendor.mk)
+$(call inherit-product-if-exists, vendor/motorola/athene/athene-vendor.mk)

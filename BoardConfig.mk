@@ -15,20 +15,20 @@
 
 include device/motorola/msm8916-common/BoardConfigCommon.mk
 
--include vendor/motorola/osprey/BoardConfigVendor.mk
+-include vendor/motorola/athene/BoardConfigVendor.mk
 
-DEVICE_PATH := device/motorola/osprey
+DEVICE_PATH := device/motorola/athene
 
 # Asserts
-TARGET_OTA_ASSERT_DEVICE := osprey,osprey_umts,osprey_u2,osprey_ud2,osprey_uds,osprey_cdma,osprey_sprint,osprey_udstv
+TARGET_OTA_ASSERT_DEVICE := athene,athene_umts,athene_u2,athene_ud2,athene_uds,athene_cdma,athene_sprint,athene_udstv
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
 
 # Init
-TARGET_INIT_VENDOR_LIB := libinit_osprey
-TARGET_RECOVERY_DEVICE_MODULES := libinit_osprey
+TARGET_INIT_VENDOR_LIB := libinit_athene
+TARGET_RECOVERY_DEVICE_MODULES := libinit_athene
 
 # Kernel
-TARGET_KERNEL_CONFIG := osprey_defconfig
+TARGET_KERNEL_CONFIG := athene_defconfig
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216     # 16384 * 1024 mmcblk0p31

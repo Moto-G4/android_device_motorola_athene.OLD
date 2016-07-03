@@ -1,4 +1,4 @@
-# Proprietary files for osprey
+# Proprietary files for athene
 
 # Audio
 etc/acdbdata/Bluetooth_cal.acdb
@@ -21,7 +21,7 @@ lib/libmmcamera_interface.so
 lib/libmmcamera_lux_standardization.so
 lib/libmmjpeg_interface.so
 lib/libqomx_core.so
-lib/hw/camera.msm8916.so:lib/hw/camera.vendor.msm8916.so
+lib/hw/camera.msm8952.so:lib/hw/camera.vendor.msm8952.so
 vendor/lib/libactuator_ak7345.so
 vendor/lib/libactuator_ak7345_camcorder.so
 vendor/lib/libactuator_ak7345_camera.so
@@ -122,11 +122,13 @@ bin/charge_only_mode
 # Sensors
 bin/akmd09912
 lib/libmotocalibration.so
-lib/hw/sensors.msm8916.so
+lib/hw/sensors.msm8952.so
 
 # Touchscreen
-etc/firmware/synaptics-boe-s2726-15100905-1f711a-osprey.tdat
-etc/firmware/synaptics-inx-s2726br_t-15091801-1dc9a8-osprey.tdat
+etc/firmware/synaptics-boe-s332u-16040503-2307b4-athene.tdat
+etc/firmware/synaptics-boe-s332ubt-15111301-1fb0fc-athene.tdat
+etc/firmware/synaptics-lgd-s332u-16040503-1fb0fc-athene.tdat
+etc/firmware/synaptics-lgd-s332ult-15111303-1fb0fc-athene.tdat
 
 # WCNSS
 etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin

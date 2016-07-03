@@ -2,6 +2,6 @@
 
 set -e
 
-export DEVICE=osprey
+export DEVICE=athene
 export VENDOR=motorola
 ./../../$VENDOR/msm8916-common/setup-makefiles.sh $@

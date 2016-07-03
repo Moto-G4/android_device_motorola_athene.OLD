@@ -1,6 +1,6 @@
-# system.prop for osprey
+# system.prop for athene
 
-ro.product.model=MotoG3
+ro.product.model=MotoG4
 
 # Audio
 persist.audio.fluence.mode=endfire
