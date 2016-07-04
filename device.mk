@@ -13,9 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit from msm8916-common
-$(call inherit-product, device/motorola/msm8916-common/msm8916.mk)
-
 # Screen density
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 

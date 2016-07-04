@@ -12,7 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Inherit from msm8952-common
+$(call inherit-product, device/motorola/msm8952-common/msm8952.mk)
 $(call inherit-product, device/motorola/athene/full_athene.mk)
+
+# Inherit from the common Open Source product configuration
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
+
+# Inherit some common CM stuff.
+$(call inherit-product, vendor/cm/config/common_full_phone.mk)
+$(call inherit-product, vendor/cm/config/telephony.mk)
+
 
 # Boot animation
 TARGET_SCREEN_WIDTH := 1080
