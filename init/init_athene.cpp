@@ -66,38 +66,38 @@ void vendor_load_properties()
 
     if (ISMATCH(sku, "XT1540")) {
         /* XT1540 */
-        property_set("ro.product.device", "osprey_umts");
-        property_set("ro.build.description", "osprey_retus-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/osprey_retus/osprey_umts:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "osprey_umts");
+        property_set("ro.product.device", "athene_umts");
+        property_set("ro.build.description", "athene_retus-user 6.0.1 MPI24.107-55 33 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene_retus/athene_umts:6.0.1/MPI24.107-55/33:user/release-keys");
+        property_set("ro.build.product", "athene_umts");
         property_set("ro.mot.build.customerid", "retus");
         property_set("ro.gsm.data_retry_config", "");
     } else if (ISMATCH(sku, "XT1541")) {
         /* XT1541 */
-        property_set("ro.product.device", "osprey_umts");
-        property_set("ro.build.description", "osprey_reteu-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/osprey_reteu/osprey_umts:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "osprey_umts");
+        property_set("ro.product.device", "athene_umts");
+        property_set("ro.build.description", "athene_reteu-user 6.0.1 MPI24.107-55 33 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene_reteu/athene_umts:6.0.1/MPI24.107-55/33:user/release-keys");
+        property_set("ro.build.product", "athene_umts");
         property_set("ro.mot.build.customerid", "reteu");
         property_set("ro.fsg-id", "emea");
         property_set("persist.radio.mot_ecc_custid", "emea");
         property_set("persist.radio.process_sups_ind", "0");
     } else if (ISMATCH(sku, "XT1542")) {
         /* XT1542 */
-        property_set("ro.product.device", "osprey_umts");
-        property_set("ro.build.description", "osprey_retla-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/osprey_retla/osprey_umts:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "osprey_umts");
+        property_set("ro.product.device", "athene_umts");
+        property_set("ro.build.description", "athene_retla-user 6.0.1 MPI24.107-55 33 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene_retla/athene_umts:6.0.1/MPI24.107-55/33:user/release-keys");
+        property_set("ro.build.product", "athene_umts");
         property_set("ro.mot.build.customerid", "retla");
         property_set("persist.radio.all_bc_msg", "all");
         property_set("persist.radio.process_sups_ind", "1");
     } else if (ISMATCH(sku, "XT1543") || ISMATCH(radio, "0x6")) {
         /* XT1543 */
         setMsim();
-        property_set("ro.product.device", "osprey_uds");
-        property_set("ro.build.description", "osprey_retla_ds-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/osprey_retla_ds/osprey_uds:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "osprey_uds");
+        property_set("ro.product.device", "athene_uds");
+        property_set("ro.build.description", "athene_retla_ds-user 6.0.1 MPI24.107-55 33 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene_retla_ds/athene_uds:6.0.1/MPI24.107-55/33:user/release-keys");
+        property_set("ro.build.product", "athene_uds");
         property_set("ro.mot.build.customerid", "retla");
         property_set("ro.fsg-id", "dstv");
         property_set("persist.radio.all_bc_msg", "all");
@@ -105,32 +105,32 @@ void vendor_load_properties()
     } else if (ISMATCH(sku, "XT1544")) {
         /* XT1544 */
         setMsim();
-        property_set("ro.product.device", "osprey_udstv");
-        property_set("ro.build.description", "osprey_retbr_dstv-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/osprey_retbr_dstv/osprey_udstv:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "osprey_udstv");
+        property_set("ro.product.device", "athene_udstv");
+        property_set("ro.build.description", "athene_retbr_dstv-user 6.0.1 MPI24.107-55 33 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene_retbr_dstv/athene_udstv:6.0.1/MPI24.107-55/33:user/release-keys");
+        property_set("ro.build.product", "athene_udstv");
         property_set("ro.mot.build.customerid", "retbr");
         property_set("persist.radio.all_bc_msg", "all");
         property_set("persist.radio.process_sups_ind", "1");
     } else if (ISMATCH(sku, "XT1548")) {
         /* XT1548 */
         if (ISMATCH(carrier, "sprint")) {
-            property_set("ro.build.description", "osprey_sprint-user 6.0.1 MPI24.107-55 33 release-keys");
-            property_set("ro.build.fingerprint", "motorola/osprey_sprint/osprey_cdma:6.0.1/MPI24.107-55/33:user/release-keys");
+            property_set("ro.build.description", "athene_sprint-user 6.0.1 MPI24.107-55 33 release-keys");
+            property_set("ro.build.fingerprint", "motorola/athene_sprint/athene_cdma:6.0.1/MPI24.107-55/33:user/release-keys");
             property_set("ro.mot.build.customerid", "sprint");
             property_set("ro.cdma.home.operator.alpha", "Virgin Mobile US");
             property_set("ro.cdma.home.operator.numeric", "311490");
             property_set("ro.fsg-id", "sprint");
         } else /*if (ISMATCH(carrier, "usc"))*/ {
-            property_set("ro.build.description", "osprey_usc-user 6.0.1 MPI24.107-55 33 release-keys");
-            property_set("ro.build.fingerprint", "motorola/osprey_usc/osprey_cdma:6.0.1/MPI24.107-55/33:user/release-keys");
+            property_set("ro.build.description", "athene_usc-user 6.0.1 MPI24.107-55 33 release-keys");
+            property_set("ro.build.fingerprint", "motorola/athene_usc/athene_cdma:6.0.1/MPI24.107-55/33:user/release-keys");
             property_set("ro.mot.build.customerid", "usc");
             property_set("ro.cdma.home.operator.alpha", "U.S. Cellular");
             property_set("ro.cdma.home.operator.numeric", "311580");
             property_set("ro.fsg-id", "usc");
         }
-        property_set("ro.product.device", "osprey_cdma");
-        property_set("ro.build.product", "osprey_cdma");
+        property_set("ro.product.device", "athene_cdma");
+        property_set("ro.build.product", "athene_cdma");
         property_set("ro.cdma.data_retry_config", "max_retries=infinite,0,0,10000,10000,100000,10000,10000,10000,10000,140000,540000,960000");
         property_set("ro.product.locale.region", "US");
         property_set("gsm.sim.operator.iso-country", "US");
@@ -144,10 +144,10 @@ void vendor_load_properties()
     } else if (ISMATCH(sku, "XT1550")) {
         /* XT1550 */
         setMsim();
-        property_set("ro.product.device", "osprey_uds");
-        property_set("ro.build.description", "osprey_retasia_ds-user 6.0.1 MPI24.107-55 35 release-keys");
-        property_set("ro.build.fingerprint", "motorola/osprey_retasia_ds/osprey_uds:6.0.1/MPI24.107-55/35:user/release-keys");
-        property_set("ro.build.product", "osprey_uds");
+        property_set("ro.product.device", "athene_uds");
+        property_set("ro.build.description", "athene_retasia_ds-user 6.0.1 MPI24.107-55 35 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene_retasia_ds/athene_uds:6.0.1/MPI24.107-55/35:user/release-keys");
+        property_set("ro.build.product", "athene_uds");
         property_set("ro.mot.build.customerid", "retasia");
         property_set("ro.fsg-id", "apac");
         property_set("persist.radio.mot_ecc_custid", "emea");
