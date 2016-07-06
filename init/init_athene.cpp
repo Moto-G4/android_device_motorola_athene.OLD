@@ -1,5 +1,5 @@
 /*
-   Copyright (c) 2014, The Linux Foundation. All rights reserved.
+   Copyright (c) 2016, The CyanogenMod Project. All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
@@ -28,6 +28,7 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "vendor_init.h"
 #include "property_service.h"
@@ -36,21 +37,16 @@
 
 #define ISMATCH(a,b)    (!strncmp(a,b,PROP_VALUE_MAX))
 
-void setMsim()
-{
-    property_set("persist.radio.force_get_pref", "1");
-    property_set("persist.radio.multisim.config", "dsds");
-    property_set("ro.telephony.ril.config", "simactivation");
-}
+static void setMsim(void);
 
 void vendor_load_properties()
 {
     char platform[PROP_VALUE_MAX];
     char radio[PROP_VALUE_MAX];
     char sku[PROP_VALUE_MAX];
-    char carrier[PROP_VALUE_MAX];
     char device[PROP_VALUE_MAX];
     char devicename[PROP_VALUE_MAX];
+    FILE *fp;
     int rc;
 
     rc = property_get("ro.board.platform", platform);
@@ -59,102 +55,16 @@ void vendor_load_properties()
 
     property_get("ro.boot.radio", radio);
     property_get("ro.boot.hardware.sku", sku);
-    property_get("ro.boot.carrier", carrier);
 
-    property_set("ro.telephony.default_network", "9");
-    property_set("ro.gsm.data_retry_config", "default_randomization=2000,max_retries=infinite,1000,1000,80000,125000,485000,905000");
-
-    if (ISMATCH(sku, "XT1540")) {
-        /* XT1540 */
-        property_set("ro.product.device", "athene_umts");
-        property_set("ro.build.description", "athene_retus-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/athene_retus/athene_umts:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "athene_umts");
-        property_set("ro.mot.build.customerid", "retus");
-        property_set("ro.gsm.data_retry_config", "");
-    } else if (ISMATCH(sku, "XT1541")) {
-        /* XT1541 */
-        property_set("ro.product.device", "athene_umts");
-        property_set("ro.build.description", "athene_reteu-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/athene_reteu/athene_umts:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "athene_umts");
-        property_set("ro.mot.build.customerid", "reteu");
-        property_set("ro.fsg-id", "emea");
-        property_set("persist.radio.mot_ecc_custid", "emea");
-        property_set("persist.radio.process_sups_ind", "0");
-    } else if (ISMATCH(sku, "XT1542")) {
-        /* XT1542 */
-        property_set("ro.product.device", "athene_umts");
-        property_set("ro.build.description", "athene_retla-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/athene_retla/athene_umts:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "athene_umts");
-        property_set("ro.mot.build.customerid", "retla");
-        property_set("persist.radio.all_bc_msg", "all");
+    if (ISMATCH(sku, "XT1622") ) {
+        property_set("ro.build.description", "athene_retail-user 6.0 MPD24.65-33 32 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene_retail/athene:6.0/MPD24.65-33/32:user/release-keys");
+        property_set("ro.gsm.data_retry_config", "default_randomization=2000,max_retries=infinite,1000,1000,80000,125000,485000,905000");
+        property_set("ro.mot.build.customerid", "retail");
         property_set("persist.radio.process_sups_ind", "1");
-    } else if (ISMATCH(sku, "XT1543") || ISMATCH(radio, "0x6")) {
-        /* XT1543 */
-        setMsim();
-        property_set("ro.product.device", "athene_uds");
-        property_set("ro.build.description", "athene_retla_ds-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/athene_retla_ds/athene_uds:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "athene_uds");
-        property_set("ro.mot.build.customerid", "retla");
-        property_set("ro.fsg-id", "dstv");
-        property_set("persist.radio.all_bc_msg", "all");
-        property_set("persist.radio.process_sups_ind", "1");
-    } else if (ISMATCH(sku, "XT1544")) {
-        /* XT1544 */
-        setMsim();
-        property_set("ro.product.device", "athene_udstv");
-        property_set("ro.build.description", "athene_retbr_dstv-user 6.0.1 MPI24.107-55 33 release-keys");
-        property_set("ro.build.fingerprint", "motorola/athene_retbr_dstv/athene_udstv:6.0.1/MPI24.107-55/33:user/release-keys");
-        property_set("ro.build.product", "athene_udstv");
-        property_set("ro.mot.build.customerid", "retbr");
-        property_set("persist.radio.all_bc_msg", "all");
-        property_set("persist.radio.process_sups_ind", "1");
-    } else if (ISMATCH(sku, "XT1548")) {
-        /* XT1548 */
-        if (ISMATCH(carrier, "sprint")) {
-            property_set("ro.build.description", "athene_sprint-user 6.0.1 MPI24.107-55 33 release-keys");
-            property_set("ro.build.fingerprint", "motorola/athene_sprint/athene_cdma:6.0.1/MPI24.107-55/33:user/release-keys");
-            property_set("ro.mot.build.customerid", "sprint");
-            property_set("ro.cdma.home.operator.alpha", "Virgin Mobile US");
-            property_set("ro.cdma.home.operator.numeric", "311490");
-            property_set("ro.fsg-id", "sprint");
-        } else /*if (ISMATCH(carrier, "usc"))*/ {
-            property_set("ro.build.description", "athene_usc-user 6.0.1 MPI24.107-55 33 release-keys");
-            property_set("ro.build.fingerprint", "motorola/athene_usc/athene_cdma:6.0.1/MPI24.107-55/33:user/release-keys");
-            property_set("ro.mot.build.customerid", "usc");
-            property_set("ro.cdma.home.operator.alpha", "U.S. Cellular");
-            property_set("ro.cdma.home.operator.numeric", "311580");
-            property_set("ro.fsg-id", "usc");
-        }
-        property_set("ro.product.device", "athene_cdma");
-        property_set("ro.build.product", "athene_cdma");
-        property_set("ro.cdma.data_retry_config", "max_retries=infinite,0,0,10000,10000,100000,10000,10000,10000,10000,140000,540000,960000");
-        property_set("ro.product.locale.region", "US");
-        property_set("gsm.sim.operator.iso-country", "US");
-        property_set("gsm.operator.iso-country", "US");
-        property_set("ril.subscription.types", "NV,RUIM");
-        property_set("ro.ril.force_eri_from_xml", "true");
-        property_set("ro.telephony.default_cdma_sub", "0");
-        property_set("ro.telephony.default_network", "10");
-        property_set("ro.telephony.get_imsi_from_sim", "true");
-        property_set("telephony.lteOnCdmaDevice", "1");
-    } else if (ISMATCH(sku, "XT1550")) {
-        /* XT1550 */
-        setMsim();
-        property_set("ro.product.device", "athene_uds");
-        property_set("ro.build.description", "athene_retasia_ds-user 6.0.1 MPI24.107-55 35 release-keys");
-        property_set("ro.build.fingerprint", "motorola/athene_retasia_ds/athene_uds:6.0.1/MPI24.107-55/35:user/release-keys");
-        property_set("ro.build.product", "athene_uds");
-        property_set("ro.mot.build.customerid", "retasia");
-        property_set("ro.fsg-id", "apac");
-        property_set("persist.radio.mot_ecc_custid", "emea");
-        property_set("persist.radio.process_sups_ind", "0");
     }
 
     property_get("ro.product.device", device);
     strlcpy(devicename, device, sizeof(devicename));
-    INFO("Found sku id: %s setting build properties for %s device\n", sku, devicename);
+    INFO("Found radio id: %s data %s setting build properties for %s device\n", radio, sku, devicename);
 }
