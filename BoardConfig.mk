@@ -20,7 +20,7 @@ include device/motorola/msm8952-common/BoardConfigCommon.mk
 DEVICE_PATH := device/motorola/athene
 
 # Asserts
-TARGET_OTA_ASSERT_DEVICE := athene,athene_umts,athene_u2,athene_ud2,athene_uds,athene_cdma,athene_sprint,athene_udstv
+TARGET_OTA_ASSERT_DEVICE := athene
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
 
 # Init
