@@ -21,11 +21,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_platform_info.xml:system/etc/audio_platform_info.xml \
     $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
 
-# Custom APN
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/apns-conf-vmob.xml:system/etc/apns-conf-vmob.xml \
-    $(LOCAL_PATH)/configs/apns-conf-usc.xml:system/etc/apns-conf-usc.xml
-
 # Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
@@ -38,3 +33,7 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 # Ramdisk
 PRODUCT_PACKAGES += \
     init.target.rc
+
+# Thermal
+PRODUCT_COPY_FILES += \
+     $(LOCAL_PATH)/configs/thermal-engine-athene.conf:system/etc/thermal-engine-athene.conf
