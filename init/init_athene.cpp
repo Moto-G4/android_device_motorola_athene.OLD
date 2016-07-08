@@ -56,9 +56,9 @@ void vendor_load_properties()
     property_get("ro.boot.radio", radio);
     property_get("ro.boot.hardware.sku", sku);
 
-    if (ISMATCH(sku, "XT1622") ) {
-        property_set("ro.build.description", "athene_retail-user 6.0 MPD24.65-33 32 release-keys");
-        property_set("ro.build.fingerprint", "motorola/athene_retail/athene:6.0/MPD24.65-33/32:user/release-keys");
+    if (ISMATCH(sku, "XT1622")) {
+        property_set("ro.build.description", "athene-user 6.0 MMI-MPJ24.139 32 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene/athene:6.0/MMI-MPJ24.139/32:user/release-keys");
         property_set("ro.gsm.data_retry_config", "default_randomization=2000,max_retries=infinite,1000,1000,80000,125000,485000,905000");
         property_set("ro.mot.build.customerid", "retail");
         property_set("persist.radio.process_sups_ind", "1");
