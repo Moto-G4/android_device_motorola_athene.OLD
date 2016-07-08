@@ -1,5 +1,7 @@
 # system.prop for athene
 
+ro.build.product=athene
+ro.product.device=athene
 ro.product.model=MotoG4
 
 # Audio
@@ -9,3 +11,11 @@ ro.qc.sdk.audio.fluencetype=fluence
 
 # Display
 ro.sf.lcd_density=320
+
+# Radio
+persist.radio.force_get_pref=1
+persist.radio.mot_ecc_custid=common
+persist.radio.mot_ecc_enabled=1
+persist.radio.multisim.config=dsds
+persist.radio.plmn_name_cmp=1
+ro.telephony.ril.config=simactivation
