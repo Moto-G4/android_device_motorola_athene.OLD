@@ -22,6 +22,7 @@ lib/libmmjpeg_interface.so
 lib/libqomx_core.so
 lib/hw/camera.msm8952.so:lib/hw/camera.vendor.msm8952.so
 vendor/lib/libactuator_ak7345.so
+vendor/lib/libactuator_lc898212xd.so
 vendor/lib/libjpegdhw.so
 vendor/lib/libjpegehw.so
 vendor/lib/libmmcamera2_c2d_module.so
@@ -30,8 +31,8 @@ vendor/lib/libmmcamera2_dcrf.so
 vendor/lib/libmmcamera2_frame_algorithm.so
 vendor/lib/libmmcamera2_iface_modules.so
 vendor/lib/libmmcamera2_imglib_modules.so
-vendor/lib/libmmcamera2_isp_modules.so
 vendor/lib/libmmcamera2_is.so
+vendor/lib/libmmcamera2_isp_modules.so
 vendor/lib/libmmcamera2_mct.so
 vendor/lib/libmmcamera2_pp_buf_mgr.so
 vendor/lib/libmmcamera2_pproc_modules.so
@@ -280,6 +281,13 @@ vendor/lib/libchromatix_s5k3m2xx_zsl_video_ad5816g.so
 
 # Charger
 bin/charge_only_mode
+
+# Graphics
+vendor/lib/libc2d30-a4xx.so
+
+# Graphics firmware
+etc/firmware/a420_pfp.fw
+etc/firmware/a420_pm4.fw
 
 # Sensors
 lib/hw/sensors.msm8952.so
