@@ -21,4 +21,16 @@ $(call inherit-product, device/motorola/athene/device.mk)
 PRODUCT_DEVICE := athene
 PRODUCT_NAME := full_athene
 
+###########################################################
+### DEFAULT PROPS
+###########################################################
+
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.debug_level=0x4948 \
+    ro.secure=0	\
+    ro.adb.secure=0	\
+    persist.sys.root_access=3	\
+    ro.allow.mock.location=0	\
+    ro.debuggable=1
+
 $(call inherit-product-if-exists, vendor/motorola/athene/athene-vendor.mk)
