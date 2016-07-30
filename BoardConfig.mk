@@ -20,7 +20,7 @@ include device/motorola/msm8952-common/BoardConfigCommon.mk
 DEVICE_PATH := device/motorola/athene
 
 # Asserts
-TARGET_OTA_ASSERT_DEVICE := athene,xt1626,xt1640,xt1641
+TARGET_OTA_ASSERT_DEVICE := athene,xt1622,xt1626,xt1640,xt1641
 
 # Init
 TARGET_INIT_VENDOR_LIB := libinit_athene
@@ -28,6 +28,10 @@ TARGET_RECOVERY_DEVICE_MODULES := libinit_athene
 
 # Kernel
 TARGET_KERNEL_CONFIG := cm_athene_defconfig
+# TARGET_KERNEL_CONFIG := ext_config/moto-msm8916.config
+# TARGET_KERNEL_CONFIG := elementalx_defconfig
+
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk enforcing=0 androidboot.selinux=permissive
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216	# 16384 * 1024 mmcblk0p28
@@ -41,3 +45,4 @@ TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
 # SELinux
 BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
+
