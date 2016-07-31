@@ -28,10 +28,10 @@ TARGET_RECOVERY_DEVICE_MODULES := libinit_athene
 
 # Kernel
 TARGET_KERNEL_CONFIG := cm_athene_defconfig
-# TARGET_KERNEL_CONFIG := ext_config/moto-msm8916.config
 # TARGET_KERNEL_CONFIG := elementalx_defconfig
 
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk enforcing=0 androidboot.selinux=permissive
+#BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk enforcing=0 androidboot.selinux=permissive
+BOARD_KERNEL_BASE := 0x80000000
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216	# 16384 * 1024 mmcblk0p28
