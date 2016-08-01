@@ -1,11 +1,10 @@
-#
-# Copyright (C) 2015 The CyanogenMod Project
+# Copyright (C) 2014 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,44 +12,81 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#
+# This file sets variables that control the way modules are built
+# thorughout the system. It should not be used to conditionally
+# disable makefiles (the proper mechanism to control what gets
+# included in a build is to use PRODUCT_PACKAGES in a product
+# definition file).
+#
+
 include device/motorola/msm8952-common/BoardConfigCommon.mk
+#include vendor/motorola/athene/BoardConfigVendor.mk
 
--include vendor/motorola/athene/BoardConfigVendor.mk
+# Bootloader
+#TARGET_NO_BOOTLOADER := true
+#TARGET_BOOTLOADER_BOARD_NAME := MSM8952
 
-DEVICE_PATH := device/motorola/athene
+# Platform
+#TARGET_BOARD_PLATFORM := msm8952
+#TARGET_BOARD_PLATFORM_GPU := qcom-adreno405
 
 # Asserts
-TARGET_OTA_ASSERT_DEVICE := athene
-TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
+TARGET_OTA_ASSERT_DEVICE += xt1622
 
-# Init
-TARGET_INIT_VENDOR_LIB := libinit_athene
-TARGET_RECOVERY_DEVICE_MODULES := libinit_athene
+# Architecture
+#TARGET_ARCH := arm
+#TARGET_ARCH_VARIANT := armv7-a-neon
+#TARGET_CPU_ABI := armeabi-v7a
+#TARGET_CPU_ABI2 := armeabi
+#TARGET_CPU_VARIANT := cortex-a53
+#TARGET_CPU_SMP := true
+
+# Flags
+#TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
+#TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
 # Kernel
+#BOARD_KERNEL_CMDLINE := ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk androidboot.selinux=permissive
+#BOARD_KERNEL_BASE := 0x80000000
+#BOARD_KERNEL_PAGESIZE := 2048
+#BOARD_KERNEL_SEPARATED_DT := true
+#TARGET_KERNEL_ARCH := arm
+#TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
+
+#TARGET_KERNEL_SOURCE := kernel/motorola/msm
+
 TARGET_KERNEL_CONFIG := athene_defconfig
+#BOARD_MKBOOTIMG_ARGS :=  --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --kernel_offset 0x00008000 --second_offset 0x00f00000 --dt device/motorola/athene/dt.img
+#BOARD_CUSTOM_BOOTIMG_MK := device/motorola/athene/mkbootimg.mk
+#TARGET_PREBUILT_KERNEL := device/motorola/athene/kernel
 
 # Partitions
-BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864        # 16384 * 4096 mmcblk0p28
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864    # 16484 * 4096 mmcblk0p29
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 10737418240   # 2621440 * 4096 mmcblk0p47
-BOARD_PERSISTIMAGE_PARTITION_SIZE := 134217728    # 32768 * 4096 mmcblk0p30
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 46497529856 # 11351936 * 4096 mmcblk0p48
+BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216	# 16384 * 1024 mmcblk0p28
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216	# 16384 * 1024 mmcblk0p29
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2684354560	# 2621440 * 1024 mmcblk0p47
+BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432	# 32768 * 1024 mmcblk0p30
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 27258650624 # 26619776 * 1024 mmcblk0p48
 
-# Power
-#TARGET_POWERHAL_VARIANT := qcom
+#BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864        # 16384 * 4096 mmcblk0p28
+#BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864    # 16484 * 4096 mmcblk0p29
+#BOARD_SYSTEMIMAGE_PARTITION_SIZE := 10737418240   # 2621440 * 4096 mmcblk0p47
+#BOARD_PERSISTIMAGE_PARTITION_SIZE := 134217728    # 32768 * 4096 mmcblk0p30
+#BOARD_USERDATAIMAGE_PARTITION_SIZE := 46497529856 # 11351936 * 4096 mmcblk0p48
 
-# Properties
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+#BOARD_BOOTIMAGE_PARTITION_SIZE := 0x02000000
+#BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x02000000
+
+# Recovery
+#TARGET_USERIMAGES_USE_EXT4 := true
 
 # TWRP
-RECOVERY_VARIANT := twrp
-
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
-TARGET_RECOVERY_QCOM_RTC_FIX := true
-BOARD_SUPPRESS_SECURE_ERASE := true
-RECOVERY_SDCARD_ON_DATA := true
-TW_DEFAULT_EXTERNAL_STORAGE := true
-TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
-TW_INCLUDE_CRYPTO := true
-TW_THEME := portrait_hdpi
+#RECOVERY_VARIANT := twrp
+#RECOVERY_GRAPHICS_USE_LINELENGTH := true
+#TARGET_RECOVERY_QCOM_RTC_FIX := true
+#BOARD_SUPPRESS_SECURE_ERASE := true
+#RECOVERY_SDCARD_ON_DATA := true
+#TW_DEFAULT_EXTERNAL_STORAGE := true
+#TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
+#TW_INCLUDE_CRYPTO := true
+#TW_THEME := portrait_hdpi

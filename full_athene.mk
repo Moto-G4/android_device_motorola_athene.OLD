@@ -15,15 +15,22 @@
 #
 
 # Inherit from athene device
-$(call inherit-product, device/motorola/athene/device.mk)
+#$(call inherit-product, device/motorola/athene/device.mk)
 
 # Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := athene
 PRODUCT_NAME := full_athene
 
+# Charger
+PRODUCT_PACKAGES += charger charger_res_images
+
 ###########################################################
 ### DEFAULT PROPS
 ###########################################################
+
+PRODUCT_COPY_FILES += \
+    device/motorola/athene/dt.img:dt.img \
+	device/motorola/athene/twrp.fstab:root/etc/twrp.fstab
 
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.debug_level=0x4948 \
@@ -33,4 +40,11 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.allow.mock.location=0	\
     ro.debuggable=1
 
-$(call inherit-product-if-exists, vendor/motorola/athene/athene-vendor.mk)
+#$(call inherit-product-if-exists, vendor/motorola/athene/athene-vendor.mk)
+
+## Device identifier. This must come after all inclusions
+PRODUCT_DEVICE := athene
+PRODUCT_NAME := omni_athene
+PRODUCT_BRAND := motorola
+PRODUCT_MODEL := Moto G4 Plus
+PRODUCT_MANUFACTURER := motorola

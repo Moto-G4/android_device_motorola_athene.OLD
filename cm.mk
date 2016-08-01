@@ -32,6 +32,9 @@ TARGET_SCREEN_HEIGHT := 1280
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := athene
 PRODUCT_NAME := cm_athene
-PRODUCT_BRAND := Motorola
-PRODUCT_MANUFACTURER := Motorola
+PRODUCT_BRAND := motorola
+PRODUCT_MANUFACTURER := motorola
 PRODUCT_RELEASE_NAME := athene
+
+PRODUCT_BUILD_PROP_OVERRIDES += \
+    PRODUCT_NAME="Moto G(4)"
