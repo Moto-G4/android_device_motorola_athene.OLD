@@ -1,5 +1,5 @@
 /*
-   Copyright (c) 2016, The CyanogenMod Project. All rights reserved.
+   Copyright (c) 2014, The Linux Foundation. All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
@@ -37,17 +37,21 @@
 
 #define ISMATCH(a,b)    (!strncmp(a,b,PROP_VALUE_MAX))
 
-static void setMsim(void);
+static void dual_sim(void);
+static void single_sim(void);
 
 void vendor_load_properties()
 {
     char platform[PROP_VALUE_MAX];
     char radio[PROP_VALUE_MAX];
     char sku[PROP_VALUE_MAX];
+    char carrier[PROP_VALUE_MAX];
     char device[PROP_VALUE_MAX];
     char devicename[PROP_VALUE_MAX];
+    char numsims[PROP_VALUE_MAX];
     FILE *fp;
     int rc;
+    bool force_msim = false;
 
     rc = property_get("ro.board.platform", platform);
     if (!rc || !ISMATCH(platform, ANDROID_TARGET))
@@ -55,16 +59,87 @@ void vendor_load_properties()
 
     property_get("ro.boot.radio", radio);
     property_get("ro.boot.hardware.sku", sku);
+    property_get("ro.boot.carrier", carrier);
+    property_get("ro.boot.num-sims", numsims);
 
-    if (ISMATCH(sku, "XT1622")) {
-        property_set("ro.build.description", "athene-user 6.0 MMI-MPJ24.139 32 release-keys");
-        property_set("ro.build.fingerprint", "motorola/athene/athene:6.0/MMI-MPJ24.139/32:user/release-keys");
-        property_set("ro.gsm.data_retry_config", "default_randomization=2000,max_retries=infinite,1000,1000,80000,125000,485000,905000");
+    property_set("ro.product.model", sku);
+
+    if (atoi(numsims) >= 2)
+        force_msim = true;
+
+    if (!force_msim && ISMATCH(sku, "XT1622")) {
+        // These are single SIM XT1622 devices
+        single_sim();
+        property_set("ro.product.device", "athene");
+        property_set("ro.build.description", "athene-user 6.0.1 MPJ24.139-23.1 1 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene/athene:6.0.1/MPJ24.139-23.1/1:user/release-keys");
+        property_set("ro.build.product", "athene");
         property_set("ro.mot.build.customerid", "retail");
-        property_set("persist.radio.process_sups_ind", "1");
+        property_set("persist.radio.mot_ecc_custid", "common");
+        property_set("persist.radio.mot_ecc_enabled", "1");
+    }
+    else if (ISMATCH(sku, "XT1622")) {
+        dual_sim();
+        property_set("ro.product.device", "athene");
+        property_set("ro.build.description", "athene-user 6.0.1 MPJ24.139-23.1 1 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene/athene:6.0.1/MPJ24.139-23.1/1:user/release-keys");
+        property_set("ro.build.product", "athene");
+        property_set("ro.mot.build.customerid", "retail");
+        property_set("persist.radio.mot_ecc_custid", "common");
+        property_set("persist.radio.mot_ecc_enabled", "1");
+    }
+    else if (ISMATCH(sku, "XT1643") || ISMATCH(radio, "0x4")) {
+        dual_sim();
+        property_set("ro.product.device", "athene_f");
+        property_set("ro.build.description", "athene_f-user 6.0.1 MPJ24.139-23.1 1 release-keys");
+        property_set("ro.build.fingerprint", "motorola/athene_f/athene_f:6.0.1/MPJ24.139-23.1/1:user/release-keys");
+        property_set("ro.build.product", "athene");
+        property_set("ro.mot.build.customerid", "retail");
+        property_set("persist.radio.mot_ecc_custid", "common");
+        property_set("persist.radio.mot_ecc_enabled", "1");
+    }
+    else if (force_msim || ISMATCH(carrier, "retbr") || ISMATCH(carrier, "retla") || ISMATCH(carrier, "tefbr")
+            || ISMATCH(carrier, "timbr") || ISMATCH(carrier, "retmx")) {
+        // These are dual SIM XT1563 devices
+/*        dual_sim();
+        property_set("ro.product.device", "lux_uds");
+        property_set("ro.build.description", "lux_retla_ds-user 5.1.1 LPD23.118-6.1 2 release-keys");
+        property_set("ro.build.fingerprint", "motorola/lux_retla_ds/lux_uds:5.1.1/LPD23.118-6.1/2:user/release-keys");
+        property_set("ro.build.product", "lux_uds");
+        property_set("ro.mot.build.customerid", "retla");
+        property_set("ro.gsm.data_retry_config", "default_randomization=2000,max_retries=infinite,1000,1000,80000,125000,485000,905000");
+        property_set("persist.radio.mot_ecc_enabled", "1");
+        property_set("persist.radio.process_sups_ind", "1");*/
+    }
+    else if (ISMATCH(sku, "XT1563") || ISMATCH(radio, "0x8")) {
+/*        single_sim();
+        property_set("ro.product.device", "lux");
+        property_set("ro.build.description", "lux_retca-user 5.1.1 LPD23.118-10 19 release-keys");
+        property_set("ro.build.fingerprint", "motorola/lux_retca/lux:5.1.1/LPD23.118-10/19:user/release-keys");
+        property_set("ro.build.product", "lux");
+        property_set("ro.mot.build.customerid", "retca");
+        property_set("ro.gsm.data_retry_config", "");
+        property_set("persist.radio.mot_ecc_enabled", "");
+        property_set("persist.radio.process_sups_ind", "1");*/
     }
 
     property_get("ro.product.device", device);
     strlcpy(devicename, device, sizeof(devicename));
     INFO("Found radio id: %s data %s setting build properties for %s device\n", radio, sku, devicename);
+}
+
+static void dual_sim(void)
+{
+    property_set("persist.radio.force_get_pref", "1");
+    property_set("persist.radio.multisim.config", "dsds");
+    property_set("persist.radio.plmn_name_cmp", "1");
+    property_set("ro.telephony.ril.config", "simactivation");
+}
+
+static void single_sim(void)
+{
+    property_set("persist.radio.force_get_pref", "");
+    property_set("persist.radio.multisim.config", "");
+    property_set("persist.radio.plmn_name_cmp", "");
+    property_set("ro.telephony.ril.config", "");
 }

@@ -1,4 +1,4 @@
-Unified Device Tree for Moto G3 (athene)
+Device Tree for Moto G4 (athene)
 ===========================================
 
 The Motorola Moto G4 (codenamed _"athene"_) is a mid-range smartphone from Motorola mobility.
@@ -17,6 +17,6 @@ Battery | Li-Ion 3000mAh battery
 Display | 1080 x 1920 pixels, 5.5 inches (~401 ppi pixel density)
 Camera  | 13 MP, f/2.0, autofocus, dual-LED (dual tone) flash
 
-Copyright 2015 - The CyanogenMod Project.
+Copyright 2016 - The CyanogenMod Project.
 
-![Moto G 2015](https://wiki.cyanogenmod.org/images/thumb/8/81/Osprey.png/314px-Osprey.png "Moto G 2015")
+![Moto G4 Plus](http://cdn9.fonearena.com/photos/albums/userpics/10004/7~140.jpg "Moto G4")

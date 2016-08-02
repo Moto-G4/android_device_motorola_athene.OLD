@@ -1,271 +1,123 @@
-# Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+# Copyright (c) 2015-2016 The CyanogenMod Project
 #
 # Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are
-# met:
+# modification, are permitted provided that the following conditions are met:
 #     * Redistributions of source code must retain the above copyright
 #       notice, this list of conditions and the following disclaimer.
-#     * Redistributions in binary form must reproduce the above
-#       copyright notice, this list of conditions and the following
-#       disclaimer in the documentation and/or other materials provided
-#       with the distribution.
-#     * Neither the name of The Linux Foundation nor the names of its
-#       contributors may be used to endorse or promote products derived
-#       from this software without specific prior written permission.
+#     * Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#     * Neither the name of The Linux Foundation nor
+#       the names of its contributors may be used to endorse or promote
+#       products derived from this software without specific prior written
+#       permission.
 #
-# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
-# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
-# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
-# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NON-INFRINGEMENT ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-#
-import init.mmi.rc
-
-import init.carrier.rc
-
-on early-init
-    mkdir /firmware 0771 system system
-    mkdir /system 0777 root root
-    symlink /data/tombstones /tombstones
-    mkdir /dsp 0771 media media
-
-on post-fs
-    export LD_PRELOAD libNimsWrap.so
-
-on fs
-    wait /dev/block/bootdevice
-    mount_all fstab.qcom
-
-    # Keeping following partitions outside fstab file. As user may not have
-    # these partition flashed on the device. Failure to mount any partition in fstab file
-    # results in failure to launch late-start class.
-
-    #wait /dev/block/bootdevice/by-name/cache
-    #mount ext4 /dev/block/bootdevice/by-name/cache /cache nosuid nodev barrier=1
-
-    wait /dev/block/bootdevice/by-name/persist
-    mount ext4 /dev/block/bootdevice/by-name/persist /persist nosuid nodev barrier=1
-    mkdir /persist/data 0700  system system
-    restorecon_recursive   /persist
-
-    wait /dev/block/bootdevice/by-name/dsp
-    mount ext4 /dev/block/bootdevice/by-name/dsp /dsp nosuid nodev barrier=1
-    restorecon_recursive   /dsp
-
-    wait /dev/block/bootdevice/by-name/modem
-    mount ext4 /dev/block/bootdevice/by-name/modem /firmware ro nosuid nodev context=u:object_r:firmware_file:s0
-    #write /sys/kernel/boot_adsp/boot 1
-
-on post-fs-data
-    mkdir /data/tombstones 0771 system system
-    mkdir /tombstones/modem 0771 system system
-    mkdir /tombstones/lpass 0771 system system
-    mkdir /tombstones/wcnss 0771 system system
-    mkdir /tombstones/dsps 0771 system system
-    mkdir /persist/data/sfs 0700 system system
-    mkdir /persist/data/tz 0700 system system
-    mkdir /data/misc/dts 0770 media audio
-    mkdir /data/misc/audio_pp 0771 media audio
-
-#start camera server as daemon
-service qcamerasvr /system/bin/mm-qcamera-daemon
-    class late_start
-    user camera
-    group camera system inet input graphics
-
-#enable zram
-on property:ro.config.zram=true
-    swapon_all fstab.qcom
-    write /proc/sys/vm/swappiness 100
-
-on init
-   write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
-
-#service qfp-daemon /system/bin/qfp-daemon
-#   class late_start
-#   user system
-#   group system drmrpc
-
-# Allow usb charging to be disabled peristently
-on property:persist.usb.chgdisabled=1
-    write /sys/class/power_supply/battery/charging_enabled 0
-
-on property:persist.usb.chgdisabled=0
-    write /sys/class/power_supply/battery/charging_enabled 1
-
-#service qrngd /system/bin/qrngd -f
-#   class main
-#   user root
-#   group root
-
-#service qrngp /system/bin/qrngp -f
-#   class main
-#   user root
-#   group root
-#   oneshot
-#   disabled
-
-#on property:sys.boot_completed=1
-#   start qrngp
-
-service qseecomd /system/bin/qseecomd
-   class core
-   user root
-   group root
-
-#service aostlmd /system/bin/aostlmd
-#   class late_start
-#   user system
-#   group system net_raw
-
-service perfd /system/vendor/bin/perfd
-   class main
-   user root
-   disabled
-
-#service seempd /system/bin/seempd
-#   class late_start
-#   user system
-#   group system
-#   socket seempdw dgram 0666 system system
-#   oneshot
-
-service thermal-engine /system/vendor/bin/thermal-engine
-   class main
-   user root
-   socket thermal-send-client stream 0666 system system
-   socket thermal-recv-client stream 0660 system system
-   socket thermal-recv-passive-client stream 0666 system system
-   group root
-
-service time_daemon /system/bin/time_daemon
-   class late_start
-   user root
-   group root
-
-service audiod /system/bin/audiod
-   class late_start
-   user system
-   group system
 
 on boot
-    start rmt_storage
-    insmod /system/lib/modules/adsprpc.ko
-# access permission for secure touch
-    chmod 0660 /sys/devices/soc.0/78b7000.i2c/i2c-3/3-0020/input/input0/secure_touch_enable
-    chmod 0440 /sys/devices/soc.0/78b7000.i2c/i2c-3/3-0020/input/input0/secure_touch
-    chmod 0660 /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch_enable
-    chmod 0440 /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch
-    chown system drmrpc /sys/devices/soc.0/78b7000.i2c/i2c-3/3-0020/input/input0/secure_touch_enable
-    chown system drmrpc /sys/devices/soc.0/78b7000.i2c/i2c-3/3-0020/input/input0/secure_touch
-    chown system drmrpc /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch_enable
-    chown system drmrpc /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/secure_touch
-    write /proc/sys/kernel/sched_boost 1
+    # Switch to interactive and let PowerHAL configure it
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
+    chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
+    chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
+    chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+    chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
 
-service ppd /system/vendor/bin/mm-pp-daemon
-    class late_start
-    disabled
-    user system
-    socket pps stream 0660 system system
-    group system graphics
+    # little cluster will be hotplugged, but not governed by power HAL
+    chown system system /sys/module/cluster_plug/parameters/low_power_mode
+    chmod 0644 /sys/module/cluster_plug/parameters/low_power_mode
 
-on property:init.svc.surfaceflinger=stopped
-    stop ppd
+    chown system system /sys/module/cpu_boost/parameters/input_boost_freq
+    chmod 0644 /sys/module/cpu_boost/parameters/input_boost_freq
 
-on property:init.svc.surfaceflinger=running
-    start ppd
+on property:sys.boot_completed=1
+    setprop sys.io.scheduler fiops
 
-service wcnss-service /system/bin/wcnss_service
-    class main
-    user system
-    group system wifi radio
-    oneshot
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+    write /sys/devices/system/cpu/cpu0/online 1
 
-on charger
-    wait /dev/block/bootdevice/by-name/system
-    mount ext4 /dev/block/bootdevice/by-name/system /system ro barrier=1
-    load_all_props
-    setprop persist.sys.usb.config mass_storage
-    start qcom-post-boot
-    setprop persist.sys.usb.config mass_storage
+    # HMP scheduler (big.Little cluster related) settings
+    write /proc/sys/kernel/sched_upmigrate 60
+    write /proc/sys/kernel/sched_downmigrate 35
+    write /proc/sys/kernel/sched_small_task 20
 
-#service imsqmidaemon /system/bin/imsqmidaemon
-#    class main
-#    user system
-#    socket ims_qmid stream 0660 system radio
-#    group radio net_raw log diag
+    # Enable sched guided freq control
+    write /proc/sys/kernel/sched_freq_inc_notify 50000
+    write /proc/sys/kernel/sched_freq_dec_notify 50000
 
-#service imsdatadaemon /system/bin/imsdatadaemon
-#    class main
-#    user system
-#    socket ims_datad stream 0660 system radio
-#    group system wifi radio inet net_raw log diag net_admin
-#    disabled
+    # cpu idle load threshold
+    write /sys/devices/system/cpu/cpu0/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu1/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu2/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu3/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu4/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu5/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu6/sched_mostly_idle_load 30
+    write /sys/devices/system/cpu/cpu7/sched_mostly_idle_load 30
 
-#on property:sys.ims.QMI_DAEMON_STATUS=1
-#    start imsdatadaemon
+    write /sys/module/cpu_boost/parameters/boost_ms 20
+    write /sys/module/cpu_boost/parameters/sync_threshold 960000
+    write /sys/module/cpu_boost/parameters/input_boost_ms 40
 
-#service ims_rtp_daemon /system/bin/ims_rtp_daemon
-#   class main
-#   user system
-#   socket ims_rtpd stream 0660 system radio
-#   group radio net_raw diag diag inet log
-#   disabled
+    start batt_health
 
-#service imscmservice /system/bin/imscmservice
-#   class main
-#   user system
-#   group radio net_raw diag diag log
-#   disabled
+    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
+    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 81250
 
-#on property:sys.ims.DATA_DAEMON_STATUS=1
-#    start ims_rtp_daemon
-#    start imscmservice
+    write /sys/module/msm_thermal/core_control/enabled 0
+    write /sys/module/cluster_plug/parameters/active 0
 
-#service dts_configurator /system/bin/dts_configurator
-#    class late_start
-#    user system
-#    group media audio
-#    oneshot
+    # disable bcl hotplug to switch governor
+    write /sys/devices/soc.0/qcom,bcl.16/mode "disable"
+    write /sys/devices/soc.0/qcom,bcl.16/hotplug_mask 0
+    write /sys/devices/soc.0/qcom,bcl.16/mode "enable"
 
-#service dtseagleservice /system/bin/dts_eagle_service
-#    class late_start
-#    user system
-#    group audio media
-#    disabled
+    # enable governor for perf cluster
+    write /sys/devices/system/cpu/cpu0/online 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay "20000 1113600:50000"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 20000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 50000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 533333
 
-service adsprpcd /system/bin/adsprpcd
-    class main
-    user media
-    group media
+    # enable governor for power cluster
+    write /sys/devices/system/cpu/cpu4/online 1
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay "25000 800000:50000"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load 80
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate 40000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 998400
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads "50 800000:65 998400:90"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time 40000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 499200
 
-#on property:init.svc.dts_configurator=stopped
-#    start dtseagleservice
+    # configure hotplug
+    write /sys/module/cluster_plug/parameters/load_threshold_down 40
+    write /sys/module/cluster_plug/parameters/load_threshold_up 80
+    write /sys/module/cluster_plug/parameters/vote_threshold_down 6
+    write /sys/module/cluster_plug/parameters/vote_threshold_up 2
+    write /sys/module/cluster_plug/parameters/sampling_time 80
 
-service per_mgr /system/bin/pm-service
-    class core
-    user system
-    group system net_raw
+    # re-enable bcl hotplug
+    write /sys/devices/soc.0/qcom,bcl.16/mode "disable"
+    write /sys/devices/soc.0/qcom,bcl.16/hotplug_mask 15
+    write /sys/devices/soc.0/qcom,bcl.16/mode "enable"
 
-service energy-awareness /system/bin/energy-awareness
-    class main
-    user root
-    group system
-    oneshot
-    disabled
-
-#service hvdcp_opti /system/bin/hvdcp_opti
-#    class main
-#    user root
-#    group root
-
-on boot
-    write /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/fw_name PR1702898-s3528t_00260005_00380008.img
-    write /sys/devices/soc.0/78b8000.i2c/i2c-4/4-0020/input/input0/update_fw 1
+    write /sys/module/msm_thermal/core_control/enabled 1
+    write /sys/module/cluster_plug/parameters/active 1
