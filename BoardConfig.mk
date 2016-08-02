@@ -27,7 +27,7 @@ TARGET_INIT_VENDOR_LIB := libinit_athene
 TARGET_RECOVERY_DEVICE_MODULES := libinit_athene
 
 # Kernel
-TARGET_KERNEL_CONFIG := cm_athene_defconfig
+TARGET_KERNEL_CONFIG := athene_defconfig
 # TARGET_KERNEL_CONFIG := elementalx_defconfig
 
 #BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk enforcing=0 androidboot.selinux=permissive
