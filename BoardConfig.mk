@@ -20,7 +20,7 @@ include device/motorola/msm8952-common/BoardConfigCommon.mk
 DEVICE_PATH := device/motorola/athene
 
 # Asserts
-TARGET_OTA_ASSERT_DEVICE += xt1622,xt1626,xt1640,xt1641
+TARGET_OTA_ASSERT_DEVICE := athene,xt1622
 
 # Init
 TARGET_INIT_VENDOR_LIB := libinit_athene
@@ -28,10 +28,6 @@ TARGET_RECOVERY_DEVICE_MODULES := libinit_athene
 
 # Kernel
 TARGET_KERNEL_CONFIG := athene_defconfig
-# TARGET_KERNEL_CONFIG := elementalx_defconfig
-
-#BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk enforcing=0 androidboot.selinux=permissive
-BOARD_KERNEL_BASE := 0x80000000
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216	# 16384 * 1024 mmcblk0p28
@@ -39,6 +35,8 @@ BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216	# 16384 * 1024 mmcblk0p29
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2684354560	# 2621440 * 1024 mmcblk0p47
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432	# 32768 * 1024 mmcblk0p30
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 27258650624 # 26619776 * 1024 mmcblk0p48
+
+#BOARD_MKBOOTIMG_ARGS :=  --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --kernel_offset 0x00008000 --second_offset 0x00f00000 --dt device/motorola/athene/dt.img
 
 # Properties
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
