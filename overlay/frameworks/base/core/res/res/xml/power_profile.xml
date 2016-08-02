@@ -1,4 +1,4 @@
-A<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <device name="Android">
     <item name="none">0</item>
     <item name="screen.on">73</item>
@@ -54,5 +54,6 @@ A<?xml version="1.0" encoding="utf-8"?>
         <value>325</value>
         <value>331</value>
     </array>
-    <item name="battery.capacity">3000</item>
+    <item name="battery.capacity">3630</item>
 </device>
+</xml>
