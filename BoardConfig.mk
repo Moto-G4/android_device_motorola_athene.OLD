@@ -43,3 +43,29 @@ TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
 # SELinux
 BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy
+
+## TWRP
+#RECOVERY_VARIANT := twrp
+#
+#RECOVERY_GRAPHICS_USE_LINELENGTH := true
+#TARGET_RECOVERY_QCOM_RTC_FIX := true
+#BOARD_SUPPRESS_SECURE_ERASE := true
+#RECOVERY_SDCARD_ON_DATA := true
+#TW_DEFAULT_EXTERNAL_STORAGE := true
+#TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
+#TW_INCLUDE_CRYPTO := true
+#TW_THEME := portrait_hdpi
+#
+# .repo/local_manifests/twrp_manifest.xml
+#<?xml version="1.0" encoding="UTF-8"?>
+#<manifest>
+#        <project name="omnirom/android_bootable_recovery"          path="bootable/recovery-twrp"          remote="private" revision="android-6.0" />
+#        <project name="CyanogenMod/android_external_busybox"       path="external/busybox"                remote="private" revision="cm-13.0" />
+#</manifest>
+#
+# cm.dependencies +=
+# {
+#    "repository":  "android_external_busybox",
+#    "target_path": "external/busybox"
+#  }
+
